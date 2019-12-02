@@ -25,8 +25,14 @@ col = db["some interest data set"]
 #===========================================================>
 import json
 import requests
-response = requests.get("https://pkgstore.datahub.io/core/gold-prices/102/datapackage.json")
-todos = json.loads(response.text)
+response = requests.get("https://pkgstore.datahub.io/core/gold-prices/monthly_json/data/40d9ba25a853b99b805eef645852cd35/monthly_json.json")
+prices = json.loads(response.text)
+print(prices[0])
+for price in prices:
+    Date = price["Date"]
+    Mark = price["Price"]
+    print(str(Date) + "_" + str(Mark))
+
 
 
 
