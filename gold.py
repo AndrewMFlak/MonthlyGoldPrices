@@ -27,9 +27,13 @@ try:
 except pymongo.errors.ConnectionFailure as e:
     print(e)
 #db name
+my_df = ''
 db = myClient["python3"]
 #collection name
-col = db["some interest data set"]
+col = db['someInterestingDataSet']
+server = 'localhost'
+mongoPort = 27017
+chunkSize = 1000
 #========================= SSL Certificate =====================>
 import ssl
 ctx = ssl.create_default_context()
@@ -46,6 +50,17 @@ while(status=='start'):
     extractedJson = urllib.request.urlopen(url,context=ctx).read()
     df = pd.read_json(extractedJson)
     print(df)
+
+def write_df_to_mongoDB(
+    my_df = my_df,\
+    database_name = 'python3',\
+    collection_name = 'someInterestingDataSet',\
+    server = 'localHost',\
+    mongodb_port = 27017,\
+    chunk_size = 1000
+    ):
+    col.create_index("_id")
+
     # print(prices[0])
     # for price in prices:
     #     Date = price["Date"]
