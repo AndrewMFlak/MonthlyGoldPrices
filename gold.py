@@ -1,4 +1,6 @@
 # https://pkgstore.datahub.io/core/gold-prices/102/datapackage.json
+#monthly prices
+# https://pkgstore.datahub.io/core/gold-prices/monthly_json/data/40d9ba25a853b99b805eef645852cd35/monthly_json.json
 # someArray = []
 print('hello world')
 count = 0
