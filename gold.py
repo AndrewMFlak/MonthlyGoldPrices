@@ -39,18 +39,7 @@ import ssl
 ctx = ssl.create_default_context()
 ctx.check_hostname = False
 ctx.verify_mode = ssl.CERT_NONE
-#===============================Start=======================>
-status = 'start'
-while(status=='start'):
-    import json
-    import requests
-    # response = requests.get("https://pkgstore.datahub.io/core/gold-prices/monthly_json/data/40d9ba25a853b99b805eef645852cd35/monthly_json.json")
-    url = "https://pkgstore.datahub.io/core/gold-prices/monthly_json/data/40d9ba25a853b99b805eef645852cd35/monthly_json.json"
-    
-    extractedJson = urllib.request.urlopen(url,context=ctx).read()
-    df = pd.read_json(extractedJson)
-    print(df)
-
+#=============================== Function ============================>
 def write_df_to_mongoDB(
     my_df = my_df,\
     database_name = 'python3',\
@@ -60,13 +49,24 @@ def write_df_to_mongoDB(
     chunk_size = 1000
     ):
     col.create_index("_id")
+    my_list = my_df.to_dict('records')
+    for item in my_list:
+        try:
+            # db.someInterestingDataSet.update_one({'_id':item['Date']},{'$set':item},upsert=True)
+            db.someInterestingDataSet.insert_one(item)
 
-    # print(prices[0])
-    # for price in prices:
-    #     Date = price["Date"]
-    #     Mark = price["Price"]
-    #     print(str(Date) + "_" + str(Mark))
-
-
-
-
+        except pymongo.errors.ConnectionFailure as e:
+            print("Upsert_OneError",e)
+            
+#========================== Workflow Start ==========================>
+status = 'start'
+while(status=='start'):
+    import json
+    import requests
+    # response = requests.get("https://pkgstore.datahub.io/core/gold-prices/monthly_json/data/40d9ba25a853b99b805eef645852cd35/monthly_json.json")
+    url = "https://pkgstore.datahub.io/core/gold-prices/monthly_json/data/40d9ba25a853b99b805eef645852cd35/monthly_json.json"
+    
+    extractedJson = urllib.request.urlopen(url,context=ctx).read()
+    my_df = pd.read_json(extractedJson)
+    write_df_to_mongoDB(my_df)
+    status = 'stop'
