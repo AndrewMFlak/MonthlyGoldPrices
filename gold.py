@@ -89,6 +89,7 @@ while(status=='start'):
     import json
     import requests
     # response = requests.get("https://pkgstore.datahub.io/core/gold-prices/monthly_json/data/40d9ba25a853b99b805eef645852cd35/monthly_json.json")
+    baseUrl = ""
     url = "https://pkgstore.datahub.io/core/gold-prices/monthly_json/data/40d9ba25a853b99b805eef645852cd35/monthly_json.json"
     
     extractedJson = urllib.request.urlopen(url,context=ctx).read()
