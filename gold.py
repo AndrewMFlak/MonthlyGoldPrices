@@ -95,12 +95,11 @@ while(status=='start'):
     extractedJson = urllib.request.urlopen(url,context=ctx).read()
     data = pd.read_json(extractedJson)
     # json_normalize(data['Date'])
-    print(data.head())
+    print(data)
         #  pd.normalize_json.load(extractedJson)
     # my_df = pd.read_json(extractedJson)
     # for someitem in my_df:
     #     print(someitem)
     
     # write_df_to_mongoDB(my_df)
-
     status = 'stop'
